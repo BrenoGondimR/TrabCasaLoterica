@@ -3,25 +3,26 @@
 
 const max = 60;
 
-const lista = [];
+let lista = [];
 let counter = 1;
-let realCounter = 0;
+let resultsCounter = 0;
 let prevRand = 1;
 let multiplier = new Date().getMilliseconds();
 
 
 const rand = () => {
     time = new Date().getTime();
-    randValue = ((time / counter) / (prevRand + 10)) % max;
+    randValue = ((time / counter) / (prevRand)) % max;
     result = (Math.ceil(randValue * multiplier) + counter % 2) % max;
     result = Math.ceil((result * randValue) % max);
-    
+
     counter++;
     prevRand = randValue;
 
-    if(realCounter == 50){
+    if(resultsCounter == 60){
+        resultsCounter = 0;
         counter = 1;
-        lista.length = 0;
+        lista = [];
     }
 
     if (check(result) || result == 0) {
@@ -29,7 +30,7 @@ const rand = () => {
     }
 
     lista.push(result);
-    realCounter++;
+    resultsCounter++;
     return result;
 }
 
@@ -50,7 +51,11 @@ var btnsortear = document.getElementById('button_comecar')
 
 btnsortear.addEventListener('click', function(){
     randomNumbers.forEach(randomNumber => {
-        randomNumber.innerHTML = rand();
+        let randomNum = rand();
+        if(randomNum < 10){
+            randomNum = "0" + randomNum;
+        }
+        randomNumber.innerHTML = randomNum;
       }); 
 })
 
